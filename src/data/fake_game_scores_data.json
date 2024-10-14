@@ -1,0 +1,200 @@
+{
+    "users": [
+        {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe",
+            "username": "johndoe",
+            "email": "johndoe@example.com",
+            "role": "PLAYER",
+            "isBlocked": false,
+            "image": "https://gameScores/johndoeAvatar.webp",
+            "highScore": 150,
+            "password": "Zq8X#3a1"
+        },
+        {
+            "id": "223e4567-e89b-12d3-a456-426614174001",
+            "name": "Jane Smith",
+            "username": "janesmith",
+            "email": "janesmith@example.com",
+            "role": "ADMIN",
+            "isBlocked": false,
+            "image": "https://gameScores/janesmithAvatar.webp",
+            "highScore": 200,
+            "password": "Gx7@p2Qw"
+        },
+        {
+            "id": "323e4567-e89b-12d3-a456-426614174002",
+            "name": "Sam Green",
+            "username": "samgreen",
+            "email": "samgreen@example.com",
+            "role": "MODERATOR",
+            "isBlocked": false,
+            "image": "https://gameScores/samgreenAvatar.webp",
+            "highScore": 180,
+            "password": "M5l!8Dfx"
+        },
+        {
+            "id": "423e4567-e89b-12d3-a456-426614174003",
+            "name": "Lisa White",
+            "username": "lisawhite",
+            "email": "lisawhite@example.com",
+            "role": "PLAYER",
+            "isBlocked": false,
+            "image": "https://gameScores/lisawhiteAvatar.webp",
+            "highScore": 220,
+            "password": "Wn6#2iHd"
+        },
+        {
+            "id": "523e4567-e89b-12d3-a456-426614174004",
+            "name": "Tom Brown",
+            "username": "tombrown",
+            "email": "tombrown@example.com",
+            "role": "PLAYER",
+            "isBlocked": true,
+            "image": "https://gameScores/tombrownAvatar.webp",
+            "highScore": 90,
+            "password": "Q2b&7Hzk"
+        },
+        {
+            "id": "623e4567-e89b-12d3-a456-426614174005",
+            "name": "Emily Davis",
+            "username": "emilydavis",
+            "email": "emilydavis@example.com",
+            "role": "MODERATOR",
+            "isBlocked": false,
+            "image": "https://gameScores/emilydavisAvatar.webp",
+            "highScore": 300,
+            "password": "J7@d3Xmp"
+        },
+        {
+            "id": "723e4567-e89b-12d3-a456-426614174006",
+            "name": "Michael Brown",
+            "username": "michaelbrown",
+            "email": "michaelbrown@example.com",
+            "role": "PLAYER",
+            "isBlocked": false,
+            "image": "https://gameScores/michaelbrownAvatar.webp",
+            "highScore": 175,
+            "password": "Yk4%5LnR"
+        },
+        {
+            "id": "823e4567-e89b-12d3-a456-426614174007",
+            "name": "Rachel Lee",
+            "username": "rachellee",
+            "email": "rachellee@example.com",
+            "role": "PLAYER",
+            "isBlocked": false,
+            "image": "https://gameScores/rachelleeAvatar.webp",
+            "highScore": 240,
+            "password": "T8v#1rMk"
+        },
+        {
+            "id": "923e4567-e89b-12d3-a456-426614174008",
+            "name": "David King",
+            "username": "davidking",
+            "email": "davidking@example.com",
+            "role": "ADMIN",
+            "isBlocked": false,
+            "image": "https://gameScores/davidkingAvatar.webp",
+            "highScore": 310,
+            "password": "B6d@9Nzl"
+        },
+        {
+            "id": "a23e4567-e89b-12d3-a456-426614174009",
+            "name": "Jessica Moore",
+            "username": "jessicamoore",
+            "email": "jessicamoore@example.com",
+            "role": "PLAYER",
+            "isBlocked": true,
+            "image": "https://gameScores/jessicamooreAvatar.webp",
+            "highScore": 50,
+            "password": "C3x&7Opq"
+        }
+    ],
+    "scores": [
+        {
+            "id": "b23e4567-e89b-12d3-a456-426614174010",
+            "playerId": "123e4567-e89b-12d3-a456-426614174000",
+            "score": 150,
+            "createdAt": "2023-10-01T12:00:00.000Z",
+            "game": "Super Mario Bros"
+        },
+        {
+            "id": "c23e4567-e89b-12d3-a456-426614174011",
+            "playerId": "223e4567-e89b-12d3-a456-426614174001",
+            "score": 200,
+            "createdAt": "2023-10-01T12:05:00.000Z",
+            "game": "Legend of Zelda"
+        },
+        {
+            "id": "d23e4567-e89b-12d3-a456-426614174012",
+            "playerId": "323e4567-e89b-12d3-a456-426614174002",
+            "score": 180,
+            "createdAt": "2023-10-01T12:10:00.000Z",
+            "game": "Pac-Man"
+        },
+        {
+            "id": "e23e4567-e89b-12d3-a456-426614174013",
+            "playerId": "423e4567-e89b-12d3-a456-426614174003",
+            "score": 220,
+            "createdAt": "2023-10-01T12:15:00.000Z",
+            "game": "Donkey Kong"
+        },
+        {
+            "id": "f23e4567-e89b-12d3-a456-426614174014",
+            "playerId": "523e4567-e89b-12d3-a456-426614174004",
+            "score": 90,
+            "createdAt": "2023-10-01T12:20:00.000Z",
+            "game": "Tetris"
+        },
+        {
+            "id": "g23e4567-e89b-12d3-a456-426614174015",
+            "playerId": "623e4567-e89b-12d3-a456-426614174005",
+            "score": 300,
+            "createdAt": "2023-10-01T12:25:00.000Z",
+            "game": "Street Fighter"
+        },
+        {
+            "id": "h23e4567-e89b-12d3-a456-426614174016",
+            "playerId": "723e4567-e89b-12d3-a456-426614174006",
+            "score": 175,
+            "createdAt": "2023-10-01T12:30:00.000Z",
+            "game": "Tekken"
+        },
+        {
+            "id": "i23e4567-e89b-12d3-a456-426614174017",
+            "playerId": "823e4567-e89b-12d3-a456-426614174007",
+            "score": 240,
+            "createdAt": "2023-10-01T12:35:00.000Z",
+            "game": "Sonic the Hedgehog"
+        },
+        {
+            "id": "j23e4567-e89b-12d3-a456-426614174018",
+            "playerId": "923e4567-e89b-12d3-a456-426614174008",
+            "score": 310,
+            "createdAt": "2023-10-01T12:40:00.000Z",
+            "game": "Resident Evil"
+        },
+        {
+            "id": "k23e4567-e89b-12d3-a456-426614174019",
+            "playerId": "a23e4567-e89b-12d3-a456-426614174009",
+            "score": 50,
+            "createdAt": "2023-10-01T12:45:00.000Z",
+            "game": "Minecraft"
+        }
+    ],
+    "errors": {
+        "400": {
+            "message": "Invalid Data",
+            "statusCode": 400
+        },
+        "409": {
+            "message": "User Already Exists",
+            "statusCode": 409
+        },
+        "500": {
+            "message": "Server error",
+            "statusCode": 500
+        }
+    }
+}
