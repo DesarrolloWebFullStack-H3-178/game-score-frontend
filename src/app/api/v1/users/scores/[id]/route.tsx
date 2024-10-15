@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import data from 'game-score-frontend/data/fake_game_scores_data.json';
 
-export async function DELETE(request: Request, { params }: { params: { playerId: string } }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     const authHeader = request.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -14,19 +14,20 @@ export async function DELETE(request: Request, { params }: { params: { playerId:
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { playerId } = params;
+    const { id: playerId } = params;
 
-    // Encontrar el índice del primer score que pertenece al playerId
-    const scoreIndex = data.scores.findIndex(score => score.playerId === playerId);
-
-    if (scoreIndex === -1) {
-      return NextResponse.json({ message: 'No scores found for this player' }, { status: 404 });
+    if (!playerId) {
+      return NextResponse.json({ message: 'No playerId provided in the URL' }, { status: 400 });
     }
 
-    // Eliminar el score encontrado
-    data.scores.splice(scoreIndex, 1);
+    // Filtrar los scores que coincidan con el playerId proporcionado
+    const playerScores = data.scores.filter(score => score.playerId === playerId);
 
-    return NextResponse.json({ message: 'Score deleted successfully' }, { status: 200 });
+    if (playerScores.length === 0) {
+      return NextResponse.json({ message: `No scores found for playerId: ${playerId}` }, { status: 404 });
+    }
+
+    return NextResponse.json(playerScores, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: 'Server error', error: (error as Error).message },

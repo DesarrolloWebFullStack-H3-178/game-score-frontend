@@ -9,12 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@kurkle/color": "^0.3.2",
+    "@popperjs/core": "^2.11.8",
+    "@tailwindcss/forms": "^0.5.9",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.4",
     "dotenv": "^16.4.5",
+    "gulp": "^5.0.0",
+    "gulp-append-prepend": "^1.0.9",
     "jsonwebtoken": "^9.0.2",
     "next": "14.2.15",
     "react": "^18",
-    "react-dom": "^18"
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -14,7 +14,7 @@ const ScorePage : NextPage = () => {
     const [score, setScore] = useState<User[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/v1/scores")
+        fetch("http://localhost:3000/api/v1/scores/leaderboard")
             .then(res => res.json())
             .then(data => {
                 setScore(data.scores);
