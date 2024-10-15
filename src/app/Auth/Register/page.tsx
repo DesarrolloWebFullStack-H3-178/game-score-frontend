@@ -1,11 +1,12 @@
 'use client';
 
 import React from "react";
-import Link from "next/link";
 import FooterAuth from "game-score-frontend/Components/Footers/FooterAuth";
 import Navbar from "game-score-frontend/Components/Navbars/AuthNavbar";
+import Link from "next/link";
 
-export default function Login() {
+export default function Register() {
+
   return (
     <>
     <Navbar />
@@ -61,6 +62,21 @@ export default function Login() {
                       type="email"
                       className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Name"
+                      name="name"
+                    />
+                  </div>
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-gray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      UserName (NickName)
+                    </label>
+                    <input
+                      type="email"
+                      className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="userName"
+                      name="username"
                     />
                   </div>
 
@@ -75,6 +91,7 @@ export default function Login() {
                       type="email"
                       className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
+                      name="email"
                     />
                   </div>
 
@@ -89,6 +106,7 @@ export default function Login() {
                       type="password"
                       className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
+                      name="password"
                     />
                   </div>
 
@@ -113,12 +131,14 @@ export default function Login() {
                   </div>
 
                   <div className="text-center mt-6">
+                  <Link href="/Admin/Dashboard">
                     <button
                       className="bg-gray-800 text-white active:bg-gray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                     >
                       Create Account
                     </button>
+                  </Link>
                   </div>
                 </form>
               </div>

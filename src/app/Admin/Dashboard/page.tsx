@@ -1,38 +1,32 @@
 'use client';
+
 import React from "react";
+import LeaderboardPage from "game-score-frontend/app/Users/Scores/page";
 
 export default function Dashboard() {
   return (
     <>
-      Sidebar aquí
-      <div className="relative md:ml-64 bg-blueGray-100">
-        NavBar Admin
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
-        <div className="flex flex-wrap">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+      <div className="flex flex-wrap">
+        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 min-h-5">
           {/* <CardLineChart /> */}
-          Gráficos de líneas aquí
+          Section 1 tables
         </div>
-        <div className="w-full xl:w-4/12 px-4">
+        <div className="w-full xl:w-4/12 px-4 min-h-5">
           {/* <CardBarChart /> */}
-          Gráficos de barras aquí
+          Section 2 Line Charts
         </div>
       </div>
       <div className="flex flex-wrap mt-4">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 min-h-5">
           {/* <CardPageVisits /> */}
-          Otros Gráficos aquí
+          Section 3 Bar Charts
         </div>
-        <div className="w-full xl:w-4/12 px-4">
+        <div className="w-full xl:w-4/12 px-4 min-h-5">
           {/* <CardSocialTraffic /> */}
-          Otros Gráficos aquí
+          Section 4 High Scores
         </div>
       </div>
-         Footer admin
-        </div>
-      </div>
-
-      
+      <LeaderboardPage />
     </>
   );
 }
