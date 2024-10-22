@@ -1,9 +1,27 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserDropdown from "game-score-frontend/Components/Dropdowns/UserDropdown";
 
 export default function AdminNavbar() {
+
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+
+
+  }, []);
+
   return (
     <>
       {/* Navbar */}
@@ -15,7 +33,7 @@ export default function AdminNavbar() {
             href="#"
             onClick={(e) => e.preventDefault()}
           >
-            Dashboard Admin
+             {`Welcome, ${user }`}
           </a>
           {/* Form */}
           <form className="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">

@@ -2,29 +2,21 @@
 
 import React from "react";
 import LeaderboardPage from "game-score-frontend/app/Users/Scores/page";
+import Section1 from "game-score-frontend/Components/Molecules/Sections/Section1";
+import Section2 from "game-score-frontend/Components/Molecules/Sections/Section2";
+import Section3 from "game-score-frontend/Components/Molecules/Sections/Section3";
+import Section4 from "game-score-frontend/Components/Molecules/Sections/Section4";
 
 export default function Dashboard() {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 min-h-5">
-          {/* <CardLineChart /> */}
-          Section 1 tables
-        </div>
-        <div className="w-full xl:w-4/12 px-4 min-h-5">
-          {/* <CardBarChart /> */}
-          Section 2 Line Charts
-        </div>
+        <Section1 />
+        <Section2 />
       </div>
       <div className="flex flex-wrap mt-4">
-        <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 min-h-5">
-          {/* <CardPageVisits /> */}
-          Section 3 Bar Charts
-        </div>
-        <div className="w-full xl:w-4/12 px-4 min-h-5">
-          {/* <CardSocialTraffic /> */}
-          Section 4 High Scores
-        </div>
+        <Section3 />
+        <Section4 />
       </div>
       <LeaderboardPage />
     </>
