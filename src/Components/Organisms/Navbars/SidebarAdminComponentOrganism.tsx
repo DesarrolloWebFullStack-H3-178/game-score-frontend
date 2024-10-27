@@ -1,8 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import NotificationDropdown from "../Dropdowns/NotificationDropdown";
-import UserDropdown from "../Dropdowns/UserDropdown";
+import NotificationDropdown from "../../Dropdowns/NotificationDropdown";
+import UserDropdown from "../../Dropdowns/UserDropdown";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -68,7 +68,7 @@ export default function Sidebar() {
             </div>
           </div>
           {/* Form */}
-          <form className="mt-6 mb-4 md:hidden">
+          {/* <form className="mt-6 mb-4 md:hidden">
             <div className="mb-3 pt-0">
               <input
                 type="text"
@@ -76,7 +76,7 @@ export default function Sidebar() {
                 className="border-0 px-3 py-2 h-12 border-solid  border-gray-500 placeholder-gray-300 text-gray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
               />
             </div>
-          </form>
+          </form> */}
           {/* Divider */}
           <hr className="my-4 md:min-w-full" />
           {/* Heading */}

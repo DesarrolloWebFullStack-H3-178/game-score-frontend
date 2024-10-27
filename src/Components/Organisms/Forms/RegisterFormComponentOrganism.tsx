@@ -14,7 +14,7 @@ interface RegisterFormProps {
 }
 
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
+const RegisterFormComponentOrganism: React.FC<RegisterFormProps> = ({ onSuccess }) => {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -54,8 +54,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         }
     }
 
-
-      
     return (
         <form>
                   <div className="relative w-full mb-3">
@@ -133,4 +131,4 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     );
 }
 
-export default RegisterForm;
+export default RegisterFormComponentOrganism;
