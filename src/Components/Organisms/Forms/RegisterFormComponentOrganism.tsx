@@ -49,7 +49,7 @@ const RegisterFormComponentOrganism: React.FC<RegisterFormProps> = ({ onSuccess 
 
 
         } catch (error) {
-            console.error('An error occurred while registering the user');
+            console.error('An error occurred while registering the user', error);
             
         }
     }

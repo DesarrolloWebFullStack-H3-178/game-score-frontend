@@ -1,14 +1,19 @@
 'use client';
 
 import DashboardComponentTemplate from 'game-score-frontend/Components/Templates/Dashboard/DashboardComponentTemplate';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import withAuth from 'game-score-frontend/HOC/AuthValidate';
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
+
+function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <>
-          <DashboardComponentTemplate>
-          {children}
-          </DashboardComponentTemplate>
-    </>
+    <DashboardComponentTemplate>
+      {children}
+    </DashboardComponentTemplate>
   );
 }
+
+export default withAuth(DashboardLayout);

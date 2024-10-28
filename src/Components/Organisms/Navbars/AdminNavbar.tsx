@@ -8,12 +8,13 @@ export default function AdminNavbar() {
   const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const data = localStorage.getItem('user');
 
-    if (userData) {
+    if (data) {
       try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
+        const parsedUser = JSON.parse(data);
+        const userId = parsedUser.id; 
+        setUser(userId);
       } catch (error) {
         console.error("Error parsing user data:", error);
       }
@@ -33,7 +34,7 @@ export default function AdminNavbar() {
             href="#"
             onClick={(e) => e.preventDefault()}
           >
-             {`Welcome, ${user }`}
+             {`Welcome, ${user ? user : 'User'}`}
           </a>
           {/* Form */}
           <form className="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
