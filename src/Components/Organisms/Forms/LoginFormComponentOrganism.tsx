@@ -29,7 +29,7 @@ export default function LoginFormComponentOrganism() {
                 console.log("Login successful", token);
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
-                router.push(`/Users/Admin?limit=20&page=9`);
+                router.push(`/Users/Admin?limit=20&page=1`);
             }
         } catch (error) {
             console.error('An error occurred while user login', error);
