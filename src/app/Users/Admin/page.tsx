@@ -86,8 +86,11 @@ export default function UsersAdmin() {
       });
   
       if (response.status === 200 || response.status === 201) {
-        console.log("Datos recibidos:", response.data.data);
-        setUsers(response.data.data || []);
+        const data = response.data.data || [];
+        console.log("Datos recibidos:", data);
+        
+        // Limitamos los usuarios al valor establecido en usersPerPage (20)
+        setUsers(data.slice(0, usersPerPage));
         setTotalUsers(response.data.total);
       }
     } catch (error) {
@@ -116,6 +119,7 @@ export default function UsersAdmin() {
 
   return (
     <div className="flex flex-col justify-center items-center text-gray-700">
+      
       <div className="mb-4">
         <h1 className="text-gray-200 text-2xl font-bold">All Users</h1>
       </div>

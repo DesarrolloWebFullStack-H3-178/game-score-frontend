@@ -34,7 +34,7 @@ export default function LoginFormComponentOrganism() {
         } catch (error) {
             console.error('An error occurred while user login', error);
         } finally {
-            setLoading(false); // Detiene el estado de carga
+            setLoading(false);
         }
     }
 
