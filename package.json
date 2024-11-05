@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.4",
     "dotenv": "^16.4.5",
+    "framer-motion": "^11.11.11",
     "gulp": "^5.0.0",
     "gulp-append-prepend": "^1.0.9",
     "jsonwebtoken": "^9.0.2",

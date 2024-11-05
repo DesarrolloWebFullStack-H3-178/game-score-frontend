@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faEye, faTrash, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faEye, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import Link from 'next/link';
-import Swal from 'sweetalert2'
+import UserModal from 'game-score-frontend/Components/Molecules/Modals/UserModalComponent';
+import { useMemo } from 'react';
 
 interface User {
   userId: string;
@@ -22,74 +23,35 @@ export default function UsersAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const [usersPerPage] = useState(20);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [action, setAction] = useState<string | null>(null);
 
-  const backendUrl = process.env.BACKEND_URL;
+  const openModal = (userId: string, action: string) => {
+    setSelectedUserId(userId);
+    setModalOpen(true);
+    setAction(action);
+  };
 
-  const handleUserDetails = (option: string) => {
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedUserId(null);
+    setAction(null);
+  };
 
-    const userId = option;
-
-    Swal.fire({
-      title: `User ${userId} Details`,
-      html: `
-        <table>
-        <tr>
-          <th>Name:</th>
-          <td>${userId}</td>
-        </tr>
-        </table>
-      `
-    })
-  }
-
-  const handleUserEdit = (option: string) => {
-
-    const userId = option;
-
-    Swal.fire({
-      title: `User ${userId} Details`,
-      html: `
-        <table>
-        <tr>
-          <th>Name:</th>
-          <td>${userId}</td>
-        </tr>
-        </table>
-      `
-    })
-  }
-
-  const handleUserBlock = (option: string) => {
-
-    const userId = option;
-
-    Swal.fire({
-      title: `User ${userId} Details`,
-      html: `
-        <table>
-        <tr>
-          <th>Name:</th>
-          <td>${userId}</td>
-        </tr>
-        </table>
-      `
-    })
-  }
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const fetchData = async (page: number) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/v1/users/admin`, {
+      const response = await axios.get(`${backendUrl}/users/admin`, {
         params: {
           limit: usersPerPage,
           page: page,
         },
       });
-  
+
       if (response.status === 200 || response.status === 201) {
         const data = response.data.data || [];
-        console.log("Datos recibidos:", data);
-        
-        // Limitamos los usuarios al valor establecido en usersPerPage (20)
         setUsers(data.slice(0, usersPerPage));
         setTotalUsers(response.data.total);
       }
@@ -99,7 +61,6 @@ export default function UsersAdmin() {
   };
 
   useEffect(() => {
-    console.log("Fetching users for page:", currentPage);
     fetchData(currentPage);
   }, [currentPage]);
 
@@ -117,14 +78,15 @@ export default function UsersAdmin() {
     }
   };
 
+  const memorizedAction = useMemo(() => action, [action]);
+
   return (
     <div className="flex flex-col justify-center items-center text-gray-700">
-      
       <div className="mb-4">
         <h1 className="text-gray-200 text-2xl font-bold">All Users</h1>
       </div>
 
-      <table className="table-fixed bg-white p-6 rounded-lg shadow-md  max-w-screen-xl w-full">
+      <table className="table-fixed bg-white p-6 rounded-lg shadow-md max-w-screen-xl w-full">
         <thead>
           <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th className="p-4 border-b w-1/5 text-center">Name</th>
@@ -145,20 +107,19 @@ export default function UsersAdmin() {
                 <td className="p-4 text-center">{user.email}</td>
                 <td className="p-4 text-center">{user.roles.join(', ')}</td>
                 <td className="p-4 text-center">
-                  <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full mx-auto" />
+                  <img src={user.avatar ? user.avatar : '../../img/image_not_found.jpg'} alt={user.name} className="w-12 h-12 rounded-full mx-auto" />
                 </td>
                 <td className="p-4 text-center">{user.isActive ? 'Yes' : 'No'}</td>
                 <td className="p-4 text-center">
-                  <Link href={''} onClick={() => handleUserDetails(user.userId)}>
+                  <Link href='#' onClick={() => openModal(user.userId, 'userView')}>
                     <FontAwesomeIcon icon={faEye} className="text-[#11cef0] w-6 h-6 mr-2" />
                   </Link>
-                  <Link href={''} onClick={ () => handleUserEdit(user.userId)}>
+                  <Link href={''} onClick={() => openModal(user.userId, 'userEdit')}>
                     <FontAwesomeIcon icon={faPenToSquare} className="text-[#2dcf89] w-6 h-6 mr-2" />
                   </Link>
-                  <Link href={'#'} onClick={ () => handleUserBlock(user.userId)}>
+                  <Link href={'#'} onClick={() => openModal(user.userId, 'userBlock')}>
                     <FontAwesomeIcon icon={user.isActive ? faLock : faLockOpen} className="text-gray-500 w-6 h-6 mr-2" />
                   </Link>
-                 
                 </td>
               </tr>
             ))
@@ -170,7 +131,6 @@ export default function UsersAdmin() {
         </tbody>
       </table>
 
-      {/* Paginador */}
       <div className="flex items-center space-x-4 mt-4">
         <button
           onClick={goToPreviousPage}
@@ -190,6 +150,10 @@ export default function UsersAdmin() {
           Next
         </button>
       </div>
+
+      {selectedUserId && (
+        <UserModal userId={selectedUserId} isOpen={isModalOpen} onClose={closeModal} action={memorizedAction || ''}  />
+      )}
     </div>
   );
 }

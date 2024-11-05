@@ -5,11 +5,31 @@ import NotificationDropdown from "../../Dropdowns/NotificationDropdown";
 import UserDropdown from "../../Dropdowns/UserDropdown";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faGlasses, faUserPen, faUserLock, faUserPlus, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import UserModal from "game-score-frontend/Components/Molecules/Modals/UserModalComponent";
+import { useMemo } from "react";
+
 
 export default function Sidebar() {
+
   const [collapseShow, setCollapseShow] = useState<string>("hidden");
   const [pathname, setPathname] = useState<string>("");
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [action, setAction] = useState<string | null>(null);
+
+
+  const openModal = (userId: string, action: string) => {
+    setSelectedUserId(userId);
+    setModalOpen(true);
+    setAction(action);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedUserId(null);
+    setAction(null);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -17,7 +37,10 @@ export default function Sidebar() {
     }
   }, []);
 
+  const memorizedAction = useMemo(() => action, [action]);
+
   return (
+    <>
     <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
@@ -81,89 +104,38 @@ export default function Sidebar() {
           <hr className="my-4 md:min-w-full" />
           {/* Heading */}
           <h6 className="md:min-w-full text-gray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-            Section 1 Links
+            Users Actions
           </h6>
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none">
             <li className="items-center">
-              <Link
-                className={
-                  "text-xs uppercase py-3 font-bold block " +
-                  (pathname.indexOf("#") !== -1
-                    ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-gray-700 hover:text-gray-500")
-                }
-                href="#"
-              >
-                <i
-                  className={
-                    "fas fa-tv mr-2 text-sm " +
-                    (pathname.indexOf("#") !== -1
-                      ? "opacity-75"
-                      : "text-gray-300")
-                  }
-                ></i>{" "}
-                Link 1
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserPlus} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Create User
               </Link>
             </li>
             <li className="items-center">
-              <Link
-                className={
-                  "text-xs uppercase py-3 font-bold block " +
-                  (pathname.indexOf("#") !== -1
-                    ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-gray-700 hover:text-gray-500")
-                }
-                href="#">
-                <i
-                  className={
-                    "fas fa-tools mr-2 text-sm " +
-                    (pathname.indexOf("#") !== -1
-                      ? "opacity-75"
-                      : "text-gray-300")
-                  }
-                ></i>{" "}
-                Link 2
+              <Link onClick={() => openModal(' ', 'findUserById')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+              <FontAwesomeIcon icon={faGlasses} className="text-emerald-500 w-3 h-3 mr-2" />
+                Find User
               </Link>
             </li>
             <li className="items-center">
-              <Link
-                className={
-                  "text-xs uppercase py-3 font-bold block " +
-                  (pathname.indexOf("#") !== -1
-                    ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-gray-700 hover:text-gray-500")
-                }
-                href="#">
-                <i
-                  className={
-                    "fas fa-table mr-2 text-sm " +
-                    (pathname.indexOf("#") !== -1
-                      ? "opacity-75"
-                      : "text-gray-300")
-                  }
-                ></i>{" "}
-                Link3
+              <Link onClick={() => openModal(' ', 'userEdit')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserPen} className="text-emerald-500 w-3 h-3 mr-2" />
+                Edit User By Name
               </Link>
             </li>
             <li className="items-center">
-              <Link
-                className={
-                  "text-xs uppercase py-3 font-bold block " +
-                  (pathname.indexOf("#") !== -1
-                    ? "text-lightBlue-500 hover:text-lightBlue-600"
-                    : "text-gray-700 hover:text-gray-500")
-                }
-                href="#">
-                <i
-                  className={
-                    "fas fa-map-marked mr-2 text-sm " +
-                    (pathname.indexOf("#") !== -1
-                      ? "opacity-75"
-                      : "text-gray-300")
-                  }
-                ></i>{" "}
-                Link 4
+              <Link onClick={() => openModal(' ', 'userBlock')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Block/UnBlock User
+              </Link>
+            </li>
+            <li className="items-center">
+              <Link onClick={() => openModal(' ', 'userSession')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserShield} className="text-emerald-500 w-3 h-3 mr-2" />
+                  User Session Status
               </Link>
             </li>
           </ul>
@@ -171,24 +143,44 @@ export default function Sidebar() {
           <hr className="my-4 md:min-w-full" />
           {/* Heading */}
           <h6 className="md:min-w-full text-gray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-          Section 2 Links
+          Scores Actions
           </h6>
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
             <li className="items-center">
-              <Link
-                className="text-gray-700 hover:text-gray-500 text-xs uppercase py-3 font-bold block"
-                href="#">
-                <i className="fas fa-fingerprint text-gray-400 mr-2 text-sm"></i>{" "}
-                Link 1
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Create Score
               </Link>
             </li>
             <li className="items-center">
-              <Link
-                className="text-gray-700 hover:text-gray-500 text-xs uppercase py-3 font-bold block"
-                href="#">
-                <i className="fas fa-clipboard-list text-gray-300 mr-2 text-sm"></i>{" "}
-                Link 2
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Show Best Scores
+              </Link>
+            </li>
+            <li>
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Show All Scores
+              </Link>
+            </li>
+            <li className="items-center">
+            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Find Score
+              </Link>
+            </li>
+            <li className="items-center">
+            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Edit Score
+              </Link>
+            </li>
+            <li className="items-center">
+            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Block/UnBlock Score
               </Link>
             </li>
           </ul>
@@ -220,5 +212,9 @@ export default function Sidebar() {
         </div>
       </div>
     </nav>
+      {selectedUserId && (
+        <UserModal userId={selectedUserId} isOpen={isModalOpen} onClose={closeModal} action= {memorizedAction || ''} />
+      )}
+    </>
   );
 }
