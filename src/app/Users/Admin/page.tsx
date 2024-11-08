@@ -27,17 +27,47 @@ export default function UsersAdmin() {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [action, setAction] = useState<string | null>(null);
 
+  const [state, setState] = useState(true);
+  const [type, setType] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [progress, setProgress] = useState(0);
+
   const openModal = (userId: string, action: string) => {
     setSelectedUserId(userId);
     setModalOpen(true);
     setAction(action);
   };
 
-  const closeModal = () => {
+  const closeModal = (state: boolean, type?: string, message = "") => {
     setModalOpen(false);
     setSelectedUserId(null);
     setAction(null);
+    if (state) {
+      setState(state);
+      setType(type || "");
+      setAlertMessage(message);
+      setProgress(0);
+    }
   };
+
+  useEffect(() => {
+    if (alertMessage) {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              setAlertMessage("");
+              window.location.reload();
+            }, 100); // Time for close Alert
+            return 100;
+          }
+          return prev + 5; // Increment Bar (step By Step)
+        });
+      }, 180); // Total time Duration
+      return () => clearInterval(interval);
+    }
+  }, [alertMessage]);
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -82,6 +112,16 @@ export default function UsersAdmin() {
 
   return (
     <div className="flex flex-col justify-center items-center text-gray-700">
+      {alertMessage && type && (
+  <div className={`absolute top-4 right-4 ${type === 'Success' ? 'bg-green-100' : 'bg-red-100'} border px-4 py-3 rounded w-96 shadow-md z-50`} role="alert">
+    <p><strong className="font-bold">¡{type}!</strong></p>
+    <p className="block sm:inline">{alertMessage}</p>
+    <div className="h-1 mt-2 rounded" style={{ background: type === 'Success' ? '#4CAF50' : '#F44336' }}>
+      <div className="h-full rounded" style={{ width: `${progress}%`, background: type === 'Success' ? '#2E7D32' : '#D32F2F' }}></div>
+    </div>
+  </div>
+)}
+    
       <div className="mb-4">
         <h1 className="text-gray-200 text-2xl font-bold">All Users</h1>
       </div>
@@ -91,7 +131,7 @@ export default function UsersAdmin() {
           <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th className="p-4 border-b w-1/5 text-center">Name</th>
             <th className="p-4 border-b w-1/5 text-center">UserName</th>
-            <th className="p-4 border-b w-1/5 text-center">Email</th>
+            <th className="p-4 border-b w-52 text-center">Email</th>
             <th className="p-4 border-b w-1/5 text-center">Roles</th>
             <th className="p-4 border-b w-1/5 text-center">Avatar</th>
             <th className="p-4 border-b w-1/5 text-center">isActive?</th>
@@ -104,8 +144,8 @@ export default function UsersAdmin() {
               <tr key={user.userId} className="bg-white hover:bg-gray-50 border-b border-dashed">
                 <td className="p-4 text-center">{user.name}</td>
                 <td className="p-4 text-center">{user.username}</td>
-                <td className="p-4 text-center">{user.email}</td>
-                <td className="p-4 text-center">{user.roles.join(', ')}</td>
+                <td className="p-4 text-center w-52">{user.email}</td>
+                <td className="p-4 text-center">{user.roles}</td>
                 <td className="p-4 text-center">
                   <img src={user.avatar ? user.avatar : '../../img/image_not_found.jpg'} alt={user.name} className="w-12 h-12 rounded-full mx-auto" />
                 </td>
@@ -152,7 +192,11 @@ export default function UsersAdmin() {
       </div>
 
       {selectedUserId && (
-        <UserModal userId={selectedUserId} isOpen={isModalOpen} onClose={closeModal} action={memorizedAction || ''}  />
+        <UserModal 
+        userId={selectedUserId} 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+        action={memorizedAction || ''} />
       )}
     </div>
   );

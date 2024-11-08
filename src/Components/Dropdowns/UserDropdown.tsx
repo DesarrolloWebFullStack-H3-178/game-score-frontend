@@ -1,10 +1,13 @@
+'use client';
 import React, { useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
+import { useRouter } from 'next/navigation';
 
 const UserDropdown: React.FC = () => {
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
   const btnDropdownRef = useRef<HTMLAnchorElement>(null);
   const popoverDropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const openDropdownPopover = () => {
     if (btnDropdownRef.current && popoverDropdownRef.current) {
@@ -18,6 +21,13 @@ const UserDropdown: React.FC = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    router.push('/');
+
+  }
 
   return (
     <>
@@ -51,7 +61,7 @@ const UserDropdown: React.FC = () => {
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
           onClick={(e) => e.preventDefault()}
         >
-          Action 1
+          My Profile
         </a>
         <a
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
@@ -68,7 +78,7 @@ const UserDropdown: React.FC = () => {
         <div className="h-0 my-2 border border-solid border-gray-100" />
         <a
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
-          onClick={(e) => e.preventDefault()}
+          onClick={handleLogOut}
         >
           LogOut
         </a>

@@ -19,23 +19,54 @@ export default function Sidebar() {
   const [action, setAction] = useState<string | null>(null);
 
 
+  const [state, setState] = useState(true);
+  const [type, setType] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [progress, setProgress] = useState(0);
+
   const openModal = (userId: string, action: string) => {
-    setSelectedUserId(userId);
+    if (userId) {
+      setSelectedUserId(userId);
     setModalOpen(true);
     setAction(action);
+    }
+    else {
+      setSelectedUserId(userId);
+      setModalOpen(true);
+      setAction(action);
+    }
   };
 
-  const closeModal = () => {
+  const closeModal = (state: boolean, type?: string, message = "") => {
     setModalOpen(false);
     setSelectedUserId(null);
     setAction(null);
+    if (state) {
+      setState(state);
+      setType(type || "");
+      setAlertMessage(message);
+      setProgress(0);
+    }
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPathname(window.location.pathname);
+    if (alertMessage) {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              setAlertMessage("");
+              window.location.reload();
+            }, 100); // Time for close Alert
+            return 100;
+          }
+          return prev + 5; // Increment Bar (step By Step)
+        });
+      }, 180); // Total time Duration
+      return () => clearInterval(interval);
     }
-  }, []);
+  }, [alertMessage]);
 
   const memorizedAction = useMemo(() => action, [action]);
 
@@ -109,7 +140,7 @@ export default function Sidebar() {
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none">
             <li className="items-center">
-              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+              <Link href="#" className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" onClick={() => openModal('fd5882ce-c2b3-44f0-8ba7-2848121d013d', 'userCreate')} >
                 <FontAwesomeIcon icon={faUserPlus} className="text-emerald-500 w-3 h-3 mr-2" />
                   Create User
               </Link>
