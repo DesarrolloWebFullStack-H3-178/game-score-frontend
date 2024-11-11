@@ -5,19 +5,22 @@ import NotificationDropdown from "../../Dropdowns/NotificationDropdown";
 import UserDropdown from "../../Dropdowns/UserDropdown";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGlasses, faUserPen, faUserLock, faUserPlus, faUserShield } from "@fortawesome/free-solid-svg-icons";
-import UserModal from "game-score-frontend/Components/Molecules/Modals/UserModalComponent";
+import { faBars, faGlasses, faUserPen, faUserLock, faUserPlus, faUserShield, faUsersLine,
+  faGamepad, faList,
+  faTrophy,
+  faMagnifyingGlass,
+  faFilePen,
+  faTableCellsRowLock
+ } from "@fortawesome/free-solid-svg-icons";
+import SidebarAdminUserModalComponent from "game-score-frontend/Components/Molecules/Modals/SidebarAdminUserModalComponent";
 import { useMemo } from "react";
-
 
 export default function Sidebar() {
 
   const [collapseShow, setCollapseShow] = useState<string>("hidden");
-  const [pathname, setPathname] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [action, setAction] = useState<string | null>(null);
-
 
   const [state, setState] = useState(true);
   const [type, setType] = useState("");
@@ -25,16 +28,9 @@ export default function Sidebar() {
   const [progress, setProgress] = useState(0);
 
   const openModal = (userId: string, action: string) => {
-    if (userId) {
-      setSelectedUserId(userId);
+    setSelectedUserId(userId);
     setModalOpen(true);
     setAction(action);
-    }
-    else {
-      setSelectedUserId(userId);
-      setModalOpen(true);
-      setAction(action);
-    }
   };
 
   const closeModal = (state: boolean, type?: string, message = "") => {
@@ -71,7 +67,18 @@ export default function Sidebar() {
   const memorizedAction = useMemo(() => action, [action]);
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-center text-gray-700">
+    {alertMessage && type && (
+        <div className={`absolute top-4 right-4 ${type === 'Success' ? 'bg-green-100' : 'bg-red-100'} border px-4 py-3 rounded w-96 shadow-md z-50`} role="alert">
+          <p><strong className="font-bold">¡{type}!</strong></p>
+          <p className="block sm:inline">{alertMessage}</p>
+          <div className={`h-1 mt-2 rounded ${type === 'Success' ? 'bg-green-500' : 'bg-red-500'}`}>
+            <div 
+            className={`h-full rounded ${type === 'Success' ? 'bg-green-700' : 'bg-red-700'}`}
+            style={{ width: `${progress}%` }}></div>
+          </div>
+        </div>
+    )}
     <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
       <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
         {/* Toggler */}
@@ -140,7 +147,7 @@ export default function Sidebar() {
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none">
             <li className="items-center">
-              <Link href="#" className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" onClick={() => openModal('fd5882ce-c2b3-44f0-8ba7-2848121d013d', 'userCreate')} >
+              <Link onClick={() => openModal(' ', 'userCreate')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
                 <FontAwesomeIcon icon={faUserPlus} className="text-emerald-500 w-3 h-3 mr-2" />
                   Create User
               </Link>
@@ -152,9 +159,9 @@ export default function Sidebar() {
               </Link>
             </li>
             <li className="items-center">
-              <Link onClick={() => openModal(' ', 'userEdit')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+              <Link onClick={() => openModal(' ', 'userEditById')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
                 <FontAwesomeIcon icon={faUserPen} className="text-emerald-500 w-3 h-3 mr-2" />
-                Edit User By Name
+                Edit User By Id
               </Link>
             </li>
             <li className="items-center">
@@ -169,6 +176,12 @@ export default function Sidebar() {
                   User Session Status
               </Link>
             </li>
+            <li>
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="/Users/Admin">
+                <FontAwesomeIcon icon={faUsersLine} className="text-emerald-500 w-3 h-3 mr-2" />
+                  Show All Users
+              </Link>
+            </li>
           </ul>
           {/* Divider */}
           <hr className="my-4 md:min-w-full" />
@@ -179,38 +192,38 @@ export default function Sidebar() {
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
             <li className="items-center">
-              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#" onClick={() => openModal(' ', 'scoreCreate')}>
+                <FontAwesomeIcon icon={faGamepad} className="text-emerald-500 w-3 h-3 mr-2" />
                   Create Score
               </Link>
             </li>
             <li className="items-center">
-              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="/Scores/Leaderboard">
+                <FontAwesomeIcon icon={faTrophy} className="text-emerald-500 w-3 h-3 mr-2" />
                   Show Best Scores
               </Link>
             </li>
             <li>
-              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+              <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="/Scores/Admin">
+                <FontAwesomeIcon icon={faList} className="text-emerald-500 w-3 h-3 mr-2" />
                   Show All Scores
               </Link>
             </li>
             <li className="items-center">
-            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+            <Link onClick={() => openModal(' ', 'findScoreById')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faMagnifyingGlass} className="text-emerald-500 w-3 h-3 mr-2" />
                   Find Score
               </Link>
             </li>
             <li className="items-center">
-            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+            <Link onClick={() => openModal(' ', 'scoreEditById')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faFilePen} className="text-emerald-500 w-3 h-3 mr-2" />
                   Edit Score
               </Link>
             </li>
             <li className="items-center">
-            <Link className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
-                <FontAwesomeIcon icon={faUserLock} className="text-emerald-500 w-3 h-3 mr-2" />
+            <Link onClick={() => openModal(' ', 'scoreBlock')} className= "text-xs uppercase py-3 font-bold block text-gray-700 hover:text-gray-300" href="#">
+                <FontAwesomeIcon icon={faTableCellsRowLock} className="text-emerald-500 w-3 h-3 mr-2" />
                   Block/UnBlock Score
               </Link>
             </li>
@@ -218,10 +231,9 @@ export default function Sidebar() {
           {/* Divider */}
           <hr className="my-4 md:min-w-full" />
           {/* Heading */}
-          <h6 className="md:min-w-full text-gray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+          {/* <h6 className="md:min-w-full text-gray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
             Other Links
           </h6>
-          {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
             <li className="items-center">
               <Link
@@ -239,13 +251,17 @@ export default function Sidebar() {
                 Link 2
               </Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </nav>
-      {selectedUserId && (
-        <UserModal userId={selectedUserId} isOpen={isModalOpen} onClose={closeModal} action= {memorizedAction || ''} />
+      {selectedUserId  &&(
+        <SidebarAdminUserModalComponent 
+        userId={selectedUserId} 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+        action= {memorizedAction || ''} />
       )}
-    </>
+    </div>
   );
 }

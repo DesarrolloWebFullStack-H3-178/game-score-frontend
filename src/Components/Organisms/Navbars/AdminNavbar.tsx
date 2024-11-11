@@ -2,26 +2,68 @@
 
 import React, { useEffect, useState } from "react";
 import UserDropdown from "game-score-frontend/Components/Dropdowns/UserDropdown";
+import axios from "axios";
 
 export default function AdminNavbar() {
 
-  const [user, setUser] = useState<string | null>(null);
+  const [userData, setUserData] = useState({
+    userId: '',
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    roles: [] as string[],
+    avatar: '',
+    isActive: true
+  });
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  useEffect(() => {
+
     const data = localStorage.getItem('user');
 
     if (data) {
+
+      const parsedUser = JSON.parse(data);
+        const userId = parsedUser.id; 
+        // console.log(userId);
+
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${backendUrl}/users/admin/${userId}`);
+    
+          if (response.status === 200) {
+            // setUserData(response.data);
+            // console.log(response);
+            
+          }
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
+      };
+
+      fetchData();
+    
       try {
         const parsedUser = JSON.parse(data);
         const userId = parsedUser.id; 
-        setUser(userId);
+        // console.log(userId);
+        
+        const fetchUserDetails = async () => {
+          const response = await axios.get(`${backendUrl}/users/admin/${userId}`);
+
+          if (response.status === 200) {
+            setUserData(response.data);
+            // console.log(response.data);
+            
+          }
+        }
+        fetchUserDetails();
       } catch (error) {
         console.error("Error parsing user data:", error);
       }
     }
+    
 
-
-  }, []);
 
   return (
     <>
@@ -34,7 +76,7 @@ export default function AdminNavbar() {
             href="#"
             onClick={(e) => e.preventDefault()}
           >
-             {`Welcome, ${user ? user : 'User'}`}
+             {`Welcome, ${userData ? userData.name : 'User'}`}
           </a>
           {/* Form */}
           <form className="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">

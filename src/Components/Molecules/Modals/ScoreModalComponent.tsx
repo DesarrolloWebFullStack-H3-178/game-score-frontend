@@ -1,11 +1,23 @@
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ScoreCreate from "game-score-frontend/Components/Templates/Scores/ScoreCreateTemplate";
+import ScoreDetails from "game-score-frontend/Components/Templates/Scores/ScoreDetailsTemplate";
+import ScoreUpdate from "game-score-frontend/Components/Templates/Scores/ScoreUpdateTemplate";
+import ScoreBlock from "game-score-frontend/Components/Templates/Scores/ScoreBlockTemplate";
+import axios from "axios";
 
 interface ScoreModalProps {
-  userId: string;
+/*   scoreData: {
+    scoreId: string;
+    playerId: string;
+    score: number;
+    game: string;
+    createdAt: string
+}; */
+  scoreId: string | null;
   isOpen: boolean;
-  onClose: (state: boolean) => void;
+  onClose: (state: boolean, type?: string, message?: string) => void;
   action: string;
 }
 
@@ -27,155 +39,82 @@ const modalVariants = {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const ScoreModal: React.FC<ScoreModalProps> = ({ userId, isOpen, onClose, action }) => {
-  const [userData, setUserData] = useState({
-    userId: '',
-    name: '',
-    username: '',
-    email: '',
-    roles: [] as string[],
-    avatar: '',
-    isActive: ''
+const ScoreModal: React.FC<ScoreModalProps> = ({ scoreId, isOpen, onClose, action }) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [scoreData, setScoreData] = useState({
+    scoreId: '',
+    playerId: '',
+    score: 0,
+    game: '',
+    createdAt: '',
+    isActive: true
   });
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (userId && action === "View") {
-        try {
-          const response = await axios.get(`${backendUrl}/users/admin/${userId}`);
-          if (response.status === 200) {
-            const { data } = response;
-            setUserData({
-              userId,
-              name: data.name,
-              username: data.username,
-              email: data.email,
-              roles: data.roles || [],
-              avatar: data.avatar,
-              isActive: data.isActive
-            });
-          }
-        } catch (error) {
-          console.error("error fetching data for this user.");
+  const fetchScoreDetails = async (scoreId: string) => {
+    if (scoreId && action === "scoreView" || action === "scoreEdit" || action === "scoreBlock") {
+      try {
+        const response = await axios.get(`${backendUrl}/scores/admin/${scoreId}`);
+        if (response.status === 200) {
+          const { data } = response;
+          
+          setScoreData({
+            scoreId,
+            playerId: data.playerId,
+            score: data.score,
+            game: data.game,
+            createdAt: data.createdAt,
+            isActive: data.isActive
+          });
         }
+      } catch (error) {
+        console.error("error fetching data for this score.");
       }
-    };
+    }
+  };
 
-    if (action === "View") fetchUserDetails();
-  }, [userId, action]);
+  useEffect(() => {
+    if (scoreId && (action === "scoreView" || action === "scoreEdit" || action === "scoreBlock" || action === "findScoreById")) {
+      fetchScoreDetails(scoreId);
+    }
+  }, [scoreId, action]);
+
+  const [formData, setFormData] = useState({
+    scoreId: '',
+    playerId: '',
+    score: 0,
+    game: '',
+    createdAt: '',
+    isActive: false
+  });
 
   const renderContent = () => {
     switch (action) {
-      case 'userView':
+      case 'scoreCreate':
         return (
-          <>
-            <h2 className="text-lg font-bold mb-4 text-center">
-              <small>User</small> <strong>{userData.name}</strong> <small>Details</small>
-            </h2>
-            <img
-              src={userData.avatar}
-              alt={`User ${userId}`}
-              className="mx-auto mb-4 rounded-md"
-              style={{ height: "130px" }}
-            />
-            <table className="w-full text-left text-gray-700">
-              <tbody>
-                <tr><th className="p-2 border-b font-semibold">Id:</th><td className="p-2 border-b">{userData.userId}</td></tr>
-                <tr><th className="p-2 border-b font-semibold">Name:</th><td className="p-2 border-b">{userData.name}</td></tr>
-                <tr><th className="p-2 border-b font-semibold">Username:</th><td className="p-2 border-b">{userData.username}</td></tr>
-                <tr><th className="p-2 border-b font-semibold">Email:</th><td className="p-2 border-b">{userData.email}</td></tr>
-                <tr>
-                  <th className="p-2 border-b font-semibold">Roles:</th>
-                  <td className="p-2 border-b">
-                    {userData.roles.length > 0 ? (
-                      <ul>{userData.roles.map((role, index) => <li key={index}>{role}</li>)}</ul>
-                    ) : (
-                      <span>No roles assigned</span>
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </>
+          <ScoreCreate
+            scoreData={scoreData}
+            isOpen={isModalOpen}
+            onClose={() => onClose(true, "Success", "Score created successfully")}
+              action="createScore"
+              />
         );
-      case 'findUserById':
-        return (
-          <form className="flex flex-col">
-            <h2 className="text-lg font-bold mb-4">Find User</h2>
-            <p>Please enter the user ID to search</p>
-            <input
-                type="text"
-                name="name"
-                className="border-solid border-2 border-sky-500 rounded-md mb-4"
-            />
-            <button className="px-4 p-2 bg-green-500 text-white rounded-lg">
-                Search
-            </button>
-          </form>
-        );
+       case 'scoreView':
+        return <ScoreDetails scoreData={scoreData} onClose={() => onClose(true, "", "")} />;
+      case 'scoreEdit':
+        return <ScoreUpdate 
+        scoreData={scoreData} 
+        isOpen={isModalOpen} 
+        onClose={() => onClose(true, "Success", "Score updated successfully")}
+        action="scoreUpdate"
+        />
       
-      case 'userEdit':
-        return (
-          <form className="flex flex-col">
-            <h2 className="text-lg font-bold mb-4">Find User</h2>
-            <p>Please type user Id to Edit</p>
-            <input
-                type="text"
-                name="name"
-                className="border-solid border-2 border-sky-500 rounded-md mb-4"
-            />
-            <button className="px-4 p-2 bg-green-500 text-white rounded-lg">
-                Search
-            </button>
-          </form>
-        );
-      case 'userBlock':
-        return (
-          <form className="flex flex-col">
-            <h2 className="text-lg font-bold mb-4">Find User</h2>
-            <p>Please type user Id to Block</p>
-            <input
-                type="text"
-                name="name"
-                className="border-solid border-2 border-sky-500 rounded-md mb-4"
-            />
-            <button className="px-4 p-2 bg-green-500 text-white rounded-lg">
-                Search
-            </button>
-          </form>
-        );
-      case 'userBlock':
-        return (
-          <form className="flex flex-col">
-            <h2 className="text-lg font-bold mb-4">Find User</h2>
-            <p>Please type user Id to Block</p>
-            <input
-                type="text"
-                name="name"
-                className="border-solid border-2 border-sky-500 rounded-md mb-4"
-            />
-            <button className="px-4 p-2 bg-green-500 text-white rounded-lg">
-                Search
-            </button>
-          </form>
-        );
-      case 'userSession':
-        return (
-          <form className="flex flex-col">
-            <h2 className="text-lg font-bold mb-4">Find User</h2>
-            <p>Please type user Id to Check Session</p>
-            <input
-                type="text"
-                name="name"
-                className="border-solid border-2 border-sky-500 rounded-md mb-4"
-            />
-            <button className="px-4 p-2 bg-green-500 text-white rounded-lg">
-                Search
-            </button>
-          </form>
-        );
-      default:
-        return null;
+      case 'scoreBlock':
+        return <ScoreBlock 
+        scoreData={scoreData} 
+        isOpen={isModalOpen} 
+        onClose={() => onClose(true, "Success", "Score Blocked successfully")}
+        action="scoreBlock"
+        />
     }
   };
 
@@ -192,14 +131,14 @@ const ScoreModal: React.FC<ScoreModalProps> = ({ userId, isOpen, onClose, action
           exit="hidden"
         >
           <motion.div
-            className="modal-container bg-white rounded-lg shadow-lg p-6 max-w-lg w-full relative"
-            style={{ width: "35em" }}
+            className="modal-container bg-white rounded-lg shadow-lg p-6 max-w-lg w-full"
+            style={{ width: "35em", minHeight: "40em" }}
             variants={modalVariants}
           >
             {renderContent()}
             <motion.div
               whileHover={{ rotate: 45 }}
-              className="close"
+              className="close absolute top-4 right-4 cursor-pointer"
               onClick={() => onClose(false)}
             >
               <div></div>

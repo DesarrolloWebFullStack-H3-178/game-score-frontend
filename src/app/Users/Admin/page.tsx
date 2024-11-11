@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faEye, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faEye, faLock, faLockOpen, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import Link from 'next/link';
-import UserModal from 'game-score-frontend/Components/Molecules/Modals/UserModalComponent';
+import UserModalComponent from 'game-score-frontend/Components/Molecules/Modals/UserModalComponent';
+import ScoreModalComponent from 'game-score-frontend/Components/Molecules/Modals/ScoreModalComponent';
 import { useMemo } from 'react';
 
 interface User {
   userId: string;
+  scoreId?: string;
   name: string;
   username: string;
   email: string;
@@ -25,6 +27,8 @@ export default function UsersAdmin() {
   const [usersPerPage] = useState(20);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedScoreId, setSelectedScoreId] = useState<string | null>(null);
+
   const [action, setAction] = useState<string | null>(null);
 
   const [state, setState] = useState(true);
@@ -32,8 +36,9 @@ export default function UsersAdmin() {
   const [alertMessage, setAlertMessage] = useState("");
   const [progress, setProgress] = useState(0);
 
-  const openModal = (userId: string, action: string) => {
+  const openModal = (userId: string, scoreId: string, action: string) => {
     setSelectedUserId(userId);
+    setSelectedScoreId(scoreId);
     setModalOpen(true);
     setAction(action);
   };
@@ -80,10 +85,10 @@ export default function UsersAdmin() {
         },
       });
 
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 200) {
         const data = response.data.data || [];
-        setUsers(data.slice(0, usersPerPage));
-        setTotalUsers(response.data.total);
+        setUsers(data.slice(0, usersPerPage).reverse());
+      setTotalUsers(response.data.total);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -113,18 +118,33 @@ export default function UsersAdmin() {
   return (
     <div className="flex flex-col justify-center items-center text-gray-700">
       {alertMessage && type && (
-  <div className={`absolute top-4 right-4 ${type === 'Success' ? 'bg-green-100' : 'bg-red-100'} border px-4 py-3 rounded w-96 shadow-md z-50`} role="alert">
-    <p><strong className="font-bold">¡{type}!</strong></p>
-    <p className="block sm:inline">{alertMessage}</p>
-    <div className="h-1 mt-2 rounded" style={{ background: type === 'Success' ? '#4CAF50' : '#F44336' }}>
-      <div className="h-full rounded" style={{ width: `${progress}%`, background: type === 'Success' ? '#2E7D32' : '#D32F2F' }}></div>
-    </div>
-  </div>
-)}
+        <div className={`absolute top-4 right-4 ${type === 'Success' ? 'bg-green-100' : 'bg-red-100'} border px-4 py-3 rounded w-96 shadow-md z-50`} role="alert">
+          <p><strong className="font-bold">¡{type}!</strong></p>
+          <p className="block sm:inline">{alertMessage}</p>
+          <div className={`h-1 mt-2 rounded ${type === 'Success' ? 'bg-green-500' : 'bg-red-500'}`}>
+            <div 
+            className={`h-full rounded ${type === 'Success' ? 'bg-green-700' : 'bg-red-700'}`}
+            style={{ width: `${progress}%` }}></div>
+          </div>
+        </div>
+      )}
     
-      <div className="mb-4">
-        <h1 className="text-gray-200 text-2xl font-bold">All Users</h1>
-      </div>
+    <div className="flex justify-between mb-6 gap-40">
+      <Link href={''} onClick={() => openModal(' ', ' ', 'userCreate')}>
+        <button className="bg-fuchsia-600 p-4 text-white rounded-lg w-64 items-center">
+          Create New User 
+          <FontAwesomeIcon icon={faUserPlus} className="ml-2" />
+        </button>
+      </Link>
+      
+      <Link href={''} onClick={() => openModal(' ', ' ', 'scoreCreate')}>
+        <button className="bg-green-600 p-4 text-white rounded-lg w-64 items-center">
+          Create New Score 
+          <FontAwesomeIcon icon={faUserPlus} className="ml-2" />
+        </button>
+      </Link>
+    </div>
+        <h1 className="text-gray-200 text-2xl font-bold mb-6">All Users List</h1>
 
       <table className="table-fixed bg-white p-6 rounded-lg shadow-md max-w-screen-xl w-full">
         <thead>
@@ -151,13 +171,13 @@ export default function UsersAdmin() {
                 </td>
                 <td className="p-4 text-center">{user.isActive ? 'Yes' : 'No'}</td>
                 <td className="p-4 text-center">
-                  <Link href='#' onClick={() => openModal(user.userId, 'userView')}>
+                  <Link href='#' onClick={() => openModal(user.userId, ' ', 'userView')}>
                     <FontAwesomeIcon icon={faEye} className="text-[#11cef0] w-6 h-6 mr-2" />
                   </Link>
-                  <Link href={''} onClick={() => openModal(user.userId, 'userEdit')}>
+                  <Link href={''} onClick={() => openModal(user.userId, ' ', 'userEdit')}>
                     <FontAwesomeIcon icon={faPenToSquare} className="text-[#2dcf89] w-6 h-6 mr-2" />
                   </Link>
-                  <Link href={'#'} onClick={() => openModal(user.userId, 'userBlock')}>
+                  <Link href={'#'} onClick={() => openModal(user.userId, ' ', 'userBlock')}>
                     <FontAwesomeIcon icon={user.isActive ? faLock : faLockOpen} className="text-gray-500 w-6 h-6 mr-2" />
                   </Link>
                 </td>
@@ -191,12 +211,22 @@ export default function UsersAdmin() {
         </button>
       </div>
 
-      {selectedUserId && (
-        <UserModal 
-        userId={selectedUserId} 
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
-        action={memorizedAction || ''} />
+      {(selectedUserId || selectedScoreId) && (
+        selectedUserId ? (
+          <UserModalComponent 
+            userId={selectedUserId} 
+            isOpen={isModalOpen} 
+            onClose={closeModal} 
+            action={memorizedAction || ''} 
+          />
+        ) : (
+          <ScoreModalComponent 
+            isOpen={isModalOpen} 
+            scoreId={selectedScoreId as string} 
+            onClose={closeModal} 
+            action={memorizedAction || ''} 
+          />
+        )
       )}
     </div>
   );

@@ -12,7 +12,7 @@ export default function LoginFormComponentOrganism() {
         password: "",
     });
 
-    const backendUrl = process.env.BACKEND_URL;
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const handleSubmit = async () => {
         setLoading(true); // Inicia el estado de carga
@@ -21,7 +21,7 @@ export default function LoginFormComponentOrganism() {
             formDataToSend.append('email', formData.email);
             formDataToSend.append("password", formData.password);
 
-            const response = await axios.post(`http://localhost:3000/api/v1/auth/login`, 
+            const response = await axios.post(`${backendUrl}/auth/login`, 
                 { formDataToSend });
 
             if (response.status === 200 || response.status === 201) {
