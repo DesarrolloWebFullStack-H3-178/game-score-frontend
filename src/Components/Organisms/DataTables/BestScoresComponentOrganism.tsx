@@ -35,8 +35,8 @@ const BestScoresCharts: React.FC<TopScoresChartProps> = ({ scores }) => {
           {
             label: 'Top Score',
             data: sortedScores.map((score) => score.score),
-            borderColor: 'rgba(75, 192, 192, 1)', // Color de la línea
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo debajo de la línea
+            borderColor: 'rgba(75, 192, 192, 1)', // Line Color
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Background Color
             borderWidth: 2,
             fill: true,
             tension: 0.9,

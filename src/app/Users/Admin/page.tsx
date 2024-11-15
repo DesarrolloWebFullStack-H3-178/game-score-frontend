@@ -137,12 +137,12 @@ export default function UsersAdmin() {
         </button>
       </Link>
       
-      <Link href={''} onClick={() => openModal(' ', ' ', 'scoreCreate')}>
+      {/* <Link href={''} onClick={() => openModal(' ', ' ', 'scoreCreate')}>
         <button className="bg-green-600 p-4 text-white rounded-lg w-64 items-center">
           Create New Score 
           <FontAwesomeIcon icon={faUserPlus} className="ml-2" />
         </button>
-      </Link>
+      </Link> */}
     </div>
         <h1 className="text-gray-200 text-2xl font-bold mb-6">All Users List</h1>
 

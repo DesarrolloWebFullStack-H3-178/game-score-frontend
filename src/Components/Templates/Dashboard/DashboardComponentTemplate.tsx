@@ -10,7 +10,7 @@ import Section2 from "game-score-frontend/Components/Molecules/Sections/Section2
 import Section3 from "game-score-frontend/Components/Molecules/Sections/Section3";
 import Section4 from "game-score-frontend/Components/Molecules/Sections/Section4"; */
 
-export default function DashboardComponentTemplate({ children }: { children: React.ReactNode }) {
+export default function DashboardComponentTemplate({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <Sidebar />

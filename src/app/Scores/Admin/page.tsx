@@ -130,12 +130,12 @@ export default function ScoresAdmin() {
       )}
     
     <div className="flex justify-between mb-6 gap-40">
-      <Link href={''} onClick={() => openModal(' ', ' ', 'userCreate')}>
+      {/* <Link href={''} onClick={() => openModal(' ', ' ', 'userCreate')}>
         <button className="bg-fuchsia-600 p-4 text-white rounded-lg w-64 items-center">
           Create New User 
           <FontAwesomeIcon icon={faUserPlus} className="ml-2" />
         </button>
-      </Link>
+      </Link> */}
       
       <Link href={''} onClick={() => openModal(' ', ' ', 'scoreCreate')}>
         <button className="bg-green-600 p-4 text-white rounded-lg w-64 items-center">
@@ -151,6 +151,8 @@ export default function ScoresAdmin() {
           <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th className="p-4 border-b w-1/5 text-center">Score</th>
             <th className="p-4 border-b w-1/5 text-center">Game</th>
+            <th className="p-4 border-b w-1/5 text-center">Score Id</th>
+            <th className="p-4 border-b w-1/5 text-center">Player Id</th>
             <th className="p-4 border-b w-52 text-center">Created At</th>
             <th className="p-4 border-b w-1/5 text-center">isActive?</th>
             <th className="p-4 border-b w-1/5 text-center">Actions</th>
@@ -162,6 +164,8 @@ export default function ScoresAdmin() {
               <tr key={score.scoreId} className="bg-white hover:bg-gray-50 border-b border-dashed">
                 <td className="p-4 text-center">{score.score}</td>
                 <td className="p-4 text-center w-52">{score.game}</td>
+                <td className="p-4 text-center w-52">{score.scoreId}</td>
+                <td className="p-4 text-center w-52">{score.playerId}</td>
                 <td className="p-4 text-center">{score.createdAt}</td>
                 <td className="p-4 text-center">{score.isActive ? 'Yes' : 'No'}</td>
                 <td className="p-4 text-center">

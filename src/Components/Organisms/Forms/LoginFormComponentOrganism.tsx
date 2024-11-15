@@ -3,9 +3,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "../../../../store/store";
+import { setAuthData } from "../../../../store/authSlice";
 
 export default function LoginFormComponentOrganism() {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -15,21 +18,20 @@ export default function LoginFormComponentOrganism() {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const handleSubmit = async () => {
-        setLoading(true); // Inicia el estado de carga
+        setLoading(true);
         try {
             const formDataToSend = new FormData();
             formDataToSend.append('email', formData.email);
             formDataToSend.append("password", formData.password);
 
-            const response = await axios.post(`${backendUrl}/auth/login`, 
-                { formDataToSend });
+            const response = await axios.post(`${backendUrl}/auth/login`, { formDataToSend });
 
             if (response.status === 200 || response.status === 201) {
                 const { token, user } = response.data;
-                console.log("Login successful", token);
+                dispatch(setAuthData({ token, user }));
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
-                router.push(`/Users/Admin?limit=20&page=1`);
+                router.push('/Users/Admin?limit=20&page=1');
             }
         } catch (error) {
             console.error('An error occurred while user login', error);
@@ -42,10 +44,7 @@ export default function LoginFormComponentOrganism() {
         <>
             <form>
                 <div className="relative w-full mb-3">
-                    <label
-                        className="block uppercase text-gray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                    >
+                    <label className="block uppercase text-gray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                         Email
                     </label>
                     <input
@@ -57,10 +56,7 @@ export default function LoginFormComponentOrganism() {
                     />
                 </div>
                 <div className="relative w-full mb-3">
-                    <label
-                        className="block uppercase text-gray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                    >
+                    <label className="block uppercase text-gray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                         Password
                     </label>
                     <input
@@ -76,7 +72,7 @@ export default function LoginFormComponentOrganism() {
                         className="bg-gray-800 text-white active:bg-gray-600 hover:bg-teal-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleSubmit}
-                        disabled={loading} // Deshabilita el botón mientras se carga
+                        disabled={loading}
                     >
                         {loading ? (
                             <div className="flex justify-center items-center">
@@ -93,5 +89,5 @@ export default function LoginFormComponentOrganism() {
                 </div>
             </form>
         </>
-    )
+    );
 }

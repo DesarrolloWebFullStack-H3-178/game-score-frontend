@@ -1,4 +1,6 @@
 import { useState, ChangeEvent } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGamepad } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 interface ScoreCreateProps {
@@ -62,8 +64,8 @@ const ScoreCreate: React.FC<ScoreCreateProps> = ({ scoreData, isOpen, onClose, a
       <table className="w-full text-left text-gray-700">
         <tbody>
           <tr>
-            <td className="p-4 text-center">
-                    <img src={'../../img/image_not_found.jpg'} className="w-12 h-12 rounded-full mx-auto" />
+            <td className="p-4">
+                    <FontAwesomeIcon icon={faGamepad} className="text-[#b944c4] w-28 h-28" fade size="10x" />
             </td>
           </tr>
           <tr>

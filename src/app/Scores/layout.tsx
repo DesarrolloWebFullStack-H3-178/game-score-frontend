@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 import withAuth from 'game-score-frontend/HOC/AuthValidate';
 
 interface DashboardLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 function DashboardLayout({ children }: DashboardLayoutProps) {

@@ -21,7 +21,7 @@ function withAuth<T extends WithAuthProps>(WrappedComponent: ComponentType<T>) {
     }, [router]);
 
     if (!isAuthenticated) {
-      return null; // Puedes mostrar un indicador de carga si lo prefieres
+      return null;
     }
 
     return <WrappedComponent {...props} />;
