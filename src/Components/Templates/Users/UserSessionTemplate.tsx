@@ -10,7 +10,7 @@ interface UserSessionProps {
     username: string;
     email: string;
     avatar?: string;
-    roles: string[];
+    role: string;
     isActive: boolean;
   };
   isOpen: boolean;
@@ -20,7 +20,7 @@ interface UserSessionProps {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const UserSession: React.FC<UserSessionProps> = ({ userData, onClose, action }) => {
+const UserSession: React.FC<UserSessionProps> = ({ userData, onClose }) => {
   const [copied, setCopied] = useState(false);
   const [message, setMessage] = useState('');
   const [sessionToken, setSessionToken] = useState('');

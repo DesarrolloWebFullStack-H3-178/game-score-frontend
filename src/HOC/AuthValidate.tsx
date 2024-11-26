@@ -6,7 +6,7 @@ interface WithAuthProps {
 }
 
 function withAuth<T extends WithAuthProps>(WrappedComponent: ComponentType<T>) {
-  return (props: T) => {
+  const AuthenticatedComponent = (props: T) => {
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -26,6 +26,11 @@ function withAuth<T extends WithAuthProps>(WrappedComponent: ComponentType<T>) {
 
     return <WrappedComponent {...props} />;
   };
+
+  // Asignar un displayName
+  AuthenticatedComponent.displayName = `WithAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+  return AuthenticatedComponent;
 }
 
 export default withAuth;

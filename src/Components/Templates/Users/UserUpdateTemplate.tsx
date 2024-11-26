@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faCopy  } from "@fortawesome/free-solid-svg-icons";
+import { faCamera  } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 import axios from 'axios';
 
 interface UserUpdateProps {
@@ -12,7 +13,7 @@ interface UserUpdateProps {
     email: string;
     password: string,
     avatar?: string;
-    roles: string[];
+    role: string;
     isActive: boolean;
   };
   isOpen: boolean;
@@ -22,7 +23,7 @@ interface UserUpdateProps {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) => {
+const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose }) => {
 
     const [formData, setFormData] = useState({
         userId: '',
@@ -35,7 +36,7 @@ const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) =>
         isActive: false,
       });
 
-    const [image, setImage] = useState<File | null>(null);
+    const [, setImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +64,7 @@ const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) =>
     const updatedFormData = {
       ...userData,
       ...formData,
-      roles: [formData.role || userData.roles[0] || "Player"], 
+      role: formData.role || userData.role || "Player", 
       isActive: formData.isActive? true : false
     };
 
@@ -86,9 +87,9 @@ const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) =>
               <div className="flex justify-center mb-4 relative">
               <div className="w-20 h-20 z-10 overflow-hidden relative group">
                 {previewImage ? (
-                  <img src={previewImage} alt="Preview" className="w-full h-full object-cover rounded-full" />
+                  <Image src={previewImage} alt="Preview" width={20} height={20} className="w-full h-full object-cover rounded-full" />
                 ) : (
-                  <img src={userData.avatar} alt="Default" className="w-full h-full object-cover rounded-full" />
+                  <Image src='./img/image_not_found.jpg' alt="Default" width={20} height={20} className="w-full h-full object-cover rounded-full" />
                 )}
                 <div className="absolute bottom-0 right-0 z-20">
                   <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
@@ -121,7 +122,7 @@ const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) =>
                   </td>
                 </tr>
                 <tr>
-                  <th className="p-2 border-b font-semibold">Username:</th><td className="p-2 border-b">
+                  <th className="p-2 border-b font-semibold">username:</th><td className="p-2 border-b">
                   <input type="text" className="bg-transparent" name="username" value={formData.username || userData.username} onChange={handleChange} />
                   </td>
                 </tr>
@@ -141,7 +142,7 @@ const UserUpdate: React.FC<UserUpdateProps> = ({ userData, onClose, action }) =>
                   <select
                     name="role"
                     className="p-2 border rounded bg-transparent"
-                    value={formData.role || (userData.roles[0] || "Player")}
+                    value={formData.role || (userData.role || "Player")}
                     onChange={handleChange}
                   >
                     <option value="Admin">Admin</option>

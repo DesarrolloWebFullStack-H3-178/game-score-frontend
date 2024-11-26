@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy  } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 import axios from 'axios';
 
 interface UserBlockProps {
@@ -11,7 +12,7 @@ interface UserBlockProps {
     username: string;
     email: string;
     avatar?: string;
-    roles: string[];
+    role: string;
     isActive: boolean;
   };
   isOpen: boolean;
@@ -21,7 +22,7 @@ interface UserBlockProps {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const UserBlock: React.FC<UserBlockProps> = ({ userData, onClose, action }) => {
+const UserBlock: React.FC<UserBlockProps> = ({ userData, onClose }) => {
     const [copied, setCopied] = useState(false);
     const handleCopyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text)
@@ -53,10 +54,11 @@ const UserBlock: React.FC<UserBlockProps> = ({ userData, onClose, action }) => {
         <small>User</small> <strong>{userData.name}</strong> <small>Details</small>
       </h2>
       <div className="flex justify-center mb-4">
-        <img
-          src={userData.avatar ? userData.avatar : '../../img/image_not_found.jpg'}
+        <Image
+          src={userData.avatar ? userData.avatar : '/img/image_not_found.jpg'}
           alt={`User ${userData.userId}`}
           className="rounded-full"
+          width={100} height={100}
           style={{ width: "100px", height: "100px" }}
         />
       </div>
@@ -80,7 +82,7 @@ const UserBlock: React.FC<UserBlockProps> = ({ userData, onClose, action }) => {
             <td className="p-2 border-b">{userData.name}</td>
           </tr>
           <tr>
-            <th className="p-2 border-b font-semibold">Username:</th>
+            <th className="p-2 border-b font-semibold">username:</th>
             <td className="p-2 border-b">{userData.username}</td>
           </tr>
           <tr>
@@ -94,8 +96,8 @@ const UserBlock: React.FC<UserBlockProps> = ({ userData, onClose, action }) => {
           <tr>
             <th className="p-2 border-b font-semibold">Role:</th>
             <td className="p-2 border-b">
-              {userData.roles.length > 0 ? (
-                <ul>{userData.roles.map((role, index) => <li key={index}>{role}</li>)}</ul>
+              {userData.role.length > 0 ? (
+                <ul>{userData.role}</ul>
               ) : (
                 <span>No roles assigned</span>
               )}

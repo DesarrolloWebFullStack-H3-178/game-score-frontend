@@ -39,14 +39,14 @@ const modalVariants = {
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const SidebarAdminUserModal: React.FC<UserModalProps> = ({ userId, scoreId, isOpen, onClose, action }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen] = useState(false);
   const [userData, setUserData] = useState({
     userId: '',
     name: '',
     username: '',
     email: '',
     password: '',
-    roles: [] as string[],
+    role: '',
     avatar: '',
     isActive: true
   });
@@ -74,14 +74,14 @@ const [isSearched, setIsSearched] = useState<boolean>(false);
             name: data.name,
             username: data.username,
             email: data.email,
-            roles: data.roles || [],
+            role: data.role,
             password: data.password,
             avatar: data.avatar,
             isActive: data.isActive
           });
         }
       } catch (error) {
-        console.error("error fetching data for this user.");
+        console.error("error fetching data for this user.", error);
       }
     }
   };
@@ -107,7 +107,7 @@ const [isSearched, setIsSearched] = useState<boolean>(false);
           });
         }
       } catch (error) {
-        console.error("error fetching data for this score.");
+        console.error("error fetching data for this score.", error);
       }
     }
   };
@@ -119,7 +119,7 @@ const [isSearched, setIsSearched] = useState<boolean>(false);
   }, [scoreId, action]);
 
   const [formData, setFormData] = useState({
-    userId: '',
+    userId: '3bf93fcd',
     scoreId: '',
     name: "",
     username: "",

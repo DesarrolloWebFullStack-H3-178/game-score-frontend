@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faCopy  } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 
 interface ScoreUpdateProps {
@@ -20,7 +18,7 @@ interface ScoreUpdateProps {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const ScoreUpdate: React.FC<ScoreUpdateProps> = ({ scoreData, onClose, action }) => {
+const ScoreUpdate: React.FC<ScoreUpdateProps> = ({ scoreData, onClose }) => {
 
     const [formData, setFormData] = useState({
       scoreId: '',

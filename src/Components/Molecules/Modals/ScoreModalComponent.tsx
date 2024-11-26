@@ -40,7 +40,7 @@ const modalVariants = {
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const ScoreModal: React.FC<ScoreModalProps> = ({ scoreId, isOpen, onClose, action }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen] = useState(false);
   const [scoreData, setScoreData] = useState({
     scoreId: '',
     playerId: '',
@@ -67,7 +67,7 @@ const ScoreModal: React.FC<ScoreModalProps> = ({ scoreId, isOpen, onClose, actio
           });
         }
       } catch (error) {
-        console.error("error fetching data for this score.");
+        console.error("error fetching data for this score.", error);
       }
     }
   };
@@ -78,14 +78,14 @@ const ScoreModal: React.FC<ScoreModalProps> = ({ scoreId, isOpen, onClose, actio
     }
   }, [scoreId, action]);
 
-  const [formData, setFormData] = useState({
+  /* const [formData, setFormData] = useState({
     scoreId: '',
     playerId: '',
     score: 0,
     game: '',
     createdAt: '',
     isActive: false
-  });
+  }); */
 
   const renderContent = () => {
     switch (action) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy  } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 interface UserDetailsProps {
   userData: {
@@ -10,7 +11,7 @@ interface UserDetailsProps {
     username: string;
     email: string;
     avatar?: string;
-    roles: string[];
+    role: string;
     isActive: boolean;
   };
   onClose?: () => void;
@@ -37,10 +38,11 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userData, onClose }) => {
         <small>User</small> <strong>{userData.name}</strong> <small>Details</small>
       </h2>
       <div className="flex justify-center mb-4">
-        <img
-          src={userData.avatar ? userData.avatar : '../../img/image_not_found.jpg'}
+        <Image
+          src={userData.avatar ? userData.avatar : '/img/image_not_found.jpg'}
           alt={`User ${userData.userId}`}
           className="rounded-full"
+          width={100} height={100}
           style={{ width: "100px", height: "100px" }}
         />
       </div>
@@ -64,7 +66,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userData, onClose }) => {
             <td className="p-2 border-b">{userData.name}</td>
           </tr>
           <tr>
-            <th className="p-2 border-b font-semibold">Username:</th>
+            <th className="p-2 border-b font-semibold">username:</th>
             <td className="p-2 border-b">{userData.username}</td>
           </tr>
           <tr>
@@ -78,11 +80,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({ userData, onClose }) => {
           <tr>
             <th className="p-2 border-b font-semibold">Role:</th>
             <td className="p-2 border-b">
-              {userData.roles.length > 0 ? (
-                <ul>{userData.roles.map((role, index) => <li key={index}>{role}</li>)}</ul>
-              ) : (
-                <span>No roles assigned</span>
-              )}
+              {userData.role}
             </td>
           </tr>
           <tr>

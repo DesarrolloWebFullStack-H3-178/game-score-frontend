@@ -14,7 +14,7 @@ interface UserModalProps {
     username: string;
     email: string;
     avatar?: string;
-    roles: string[];
+    role: string;
     isActive: boolean;
   }; */
   userId: string | null;
@@ -42,14 +42,14 @@ const modalVariants = {
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const UserModal: React.FC<UserModalProps> = ({ userId, isOpen, onClose, action }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen] = useState(false);
   const [userData, setUserData] = useState({
     userId: '',
     name: '',
     username: '',
     email: '',
     password: '',
-    roles: [] as string[],
+    role: '',
     avatar: '',
     isActive: true
   });
@@ -65,14 +65,14 @@ const UserModal: React.FC<UserModalProps> = ({ userId, isOpen, onClose, action }
             name: data.name,
             username: data.username,
             email: data.email,
-            roles: data.roles || [],
+            role: data.role || '',
             password: data.password,
             avatar: data.avatar,
             isActive: data.isActive
           });
         }
       } catch (error) {
-        console.error("error fetching data for this user.");
+        console.error("error fetching data for this user.", error);
       }
     }
   };
@@ -83,7 +83,7 @@ const UserModal: React.FC<UserModalProps> = ({ userId, isOpen, onClose, action }
     }
   }, [userId, action]);
 
-  const [formData, setFormData] = useState({
+  /* const [formData, setFormData] = useState({
     userId: '',
     name: "",
     username: "",
@@ -92,7 +92,7 @@ const UserModal: React.FC<UserModalProps> = ({ userId, isOpen, onClose, action }
     role: "",
     avatar: "",
     isActive: false,
-  });
+  }); */
 
   
 

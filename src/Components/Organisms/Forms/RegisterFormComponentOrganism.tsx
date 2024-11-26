@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 interface ApiResponse {
@@ -60,10 +60,10 @@ const RegisterFormComponentOrganism: React.FC<RegisterFormProps> = ({ onSuccess 
           </div>
           <div className="relative w-full mb-3">
             <label className="block uppercase text-gray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                      UserName (NickName)
+                      username (NickName)
             </label>
             <input  type="email" className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="userName" name="username" onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="username" name="username" onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
           </div>
           <div className="relative w-full mb-3">

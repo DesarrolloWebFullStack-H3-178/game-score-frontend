@@ -15,7 +15,7 @@ interface ScoreCreateProps {
     action: string;
 }
 
-const ScoreCreate: React.FC<ScoreCreateProps> = ({ scoreData, isOpen, onClose, action }) => {
+const ScoreCreate: React.FC<ScoreCreateProps> = ({ scoreData, onClose }) => {
     const [formData, setFormData] = useState({
         playerId: scoreData.playerId,
         score: scoreData.score,

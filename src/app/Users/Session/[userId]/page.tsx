@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import type { NextPage } from 'next';
+import Image from "next/image";
 
 interface User {
     id: string;
@@ -57,7 +58,7 @@ const UserSessionPage: NextPage = () => {
                         <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                             <th className="p-4 border-b">User Id</th>
                             <th className="p-4 border-b">Name</th>
-                            <th className="p-4 border-b">Username</th>
+                            <th className="p-4 border-b">username</th>
                             <th className="p-4 border-b">Email</th>
                             <th className="p-4 border-b">Role</th>
                             <th className="p-4 border-b">High Score</th>
@@ -75,7 +76,9 @@ const UserSessionPage: NextPage = () => {
                             <td className="p-4 text-center">{user.highScore}</td>
                             <td className="p-4 text-center">{user.isBlocked ? "Yes" : "No"}</td>
                             <td className="p-4 text-center">
-                                <img src={user.image} alt={user.name} className="w-12 h-12 rounded-full" />
+                                <Image src={user.image} alt={user.name} 
+                                width={20} height={20}
+                                className="w-12 h-12 rounded-full" />
                             </td>
                         </tr>
                     </tbody>

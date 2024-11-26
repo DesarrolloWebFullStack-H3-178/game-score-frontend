@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import Link from "next/link";
@@ -10,10 +11,14 @@ const NotificationDropdown: React.FC = () => {
 
   const openDropdownPopover = () => {
     if (btnDropdownRef.current && popoverDropdownRef.current) {
-      createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-        placement: "bottom-start",
-      });
-      setDropdownPopoverShow(true);
+      try {
+        createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+          placement: "bottom-start",
+        });
+        setDropdownPopoverShow(true);
+      } catch (error) {
+        console.error("Error creating Popper:", error);
+      }
     }
   };
 
@@ -21,16 +26,26 @@ const NotificationDropdown: React.FC = () => {
     setDropdownPopoverShow(false);
   };
 
+  const toggleDropdown = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (dropdownPopoverShow) {
+      closeDropdownPopover();
+    } else {
+      openDropdownPopover();
+    }
+  };
+
+  /* const preventDefault = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+  }; */
+
   return (
     <>
       <Link
         className="text-gray-500 block py-1 px-3"
         href="#"
         ref={btnDropdownRef}
-        onClick={(e) => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-        }}
+        onClick={toggleDropdown}
       >
         <i className="fas fa-bell"></i>
       </Link>

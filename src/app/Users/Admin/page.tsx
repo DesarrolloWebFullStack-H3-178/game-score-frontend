@@ -8,6 +8,7 @@ import Link from 'next/link';
 import UserModalComponent from 'game-score-frontend/Components/Molecules/Modals/UserModalComponent';
 import ScoreModalComponent from 'game-score-frontend/Components/Molecules/Modals/ScoreModalComponent';
 import { useMemo } from 'react';
+import Image from "next/image";
 
 interface User {
   userId: string;
@@ -15,7 +16,7 @@ interface User {
   name: string;
   username: string;
   email: string;
-  roles: string[];
+  role: string;
   avatar: string;
   isActive: boolean;
 }
@@ -31,7 +32,7 @@ export default function UsersAdmin() {
 
   const [action, setAction] = useState<string | null>(null);
 
-  const [state, setState] = useState(true);
+  const [, setState] = useState(true);
   const [type, setType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [progress, setProgress] = useState(0);
@@ -150,9 +151,9 @@ export default function UsersAdmin() {
         <thead>
           <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
             <th className="p-4 border-b w-1/5 text-center">Name</th>
-            <th className="p-4 border-b w-1/5 text-center">UserName</th>
+            <th className="p-4 border-b w-1/5 text-center">username</th>
             <th className="p-4 border-b w-52 text-center">Email</th>
-            <th className="p-4 border-b w-1/5 text-center">Roles</th>
+            <th className="p-4 border-b w-1/5 text-center">Role</th>
             <th className="p-4 border-b w-1/5 text-center">Avatar</th>
             <th className="p-4 border-b w-1/5 text-center">isActive?</th>
             <th className="p-4 border-b w-1/5 text-center">Actions</th>
@@ -165,9 +166,11 @@ export default function UsersAdmin() {
                 <td className="p-4 text-center">{user.name}</td>
                 <td className="p-4 text-center">{user.username}</td>
                 <td className="p-4 text-center w-52">{user.email}</td>
-                <td className="p-4 text-center">{user.roles}</td>
+                <td className="p-4 text-center">{user.role}</td>
                 <td className="p-4 text-center">
-                  <img src={user.avatar ? user.avatar : '../../img/image_not_found.jpg'} alt={user.name} className="w-12 h-12 rounded-full mx-auto" />
+                  <Image src={user.avatar ? user.avatar : '/img/image_not_found.jpg'} 
+                  width={20} height={20}
+                  alt={user.name} className="w-12 h-12 rounded-full mx-auto" />
                 </td>
                 <td className="p-4 text-center">{user.isActive ? 'Yes' : 'No'}</td>
                 <td className="p-4 text-center">

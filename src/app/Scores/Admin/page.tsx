@@ -27,11 +27,11 @@ export default function ScoresAdmin() {
   const [scoresPerPage] = useState(20);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedScoreId, setSelectedScoreId] = useState<string | null>(null);
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [, setSelectedUserId] = useState<string | null>(null);
 
   const [action, setAction] = useState<string | null>(null);
 
-  const [state, setState] = useState(true);
+  const [, setState] = useState(true);
   const [type, setType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [progress, setProgress] = useState(0);

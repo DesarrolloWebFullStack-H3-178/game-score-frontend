@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import FooterAuth from "game-score-frontend/Components/Footers/FooterAuth";
-import Navbar from "game-score-frontend/Components/Organisms/Navbars/AuthNavbar";
 import GitHubComponentAtom from "game-score-frontend/Components/Atoms/Buttons/GitHubComponentAtom";
 import GoogleComponentAtom from "game-score-frontend/Components/Atoms/Buttons/GoogleComponentAtom";
 import BackGroundAuthComponentAtom from "game-score-frontend/Components/Atoms/Styles/BackGroundAuthComponentAtom";

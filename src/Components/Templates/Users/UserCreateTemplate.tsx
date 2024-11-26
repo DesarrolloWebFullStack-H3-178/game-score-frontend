@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import Image from "next/image";
 import axios from 'axios';
 
 interface UserCreateProps {
@@ -10,20 +11,20 @@ interface UserCreateProps {
         username: string;
         email: string;
         password?: string;
-        roles: string[];
+        role: string;
     };
     isOpen: boolean;
     onClose: (state: boolean, type?: string, message?: string) => void;
     action: string;
 }
 
-const UserCreate: React.FC<UserCreateProps> = ({ userData, isOpen, onClose, action }) => {
+const UserCreate: React.FC<UserCreateProps> = ({ userData, onClose }) => {
     const [formData, setFormData] = useState({
         name: userData.name,
         username: userData.username,
         email: userData.email,
         password: '',
-        role: userData.roles[0] || 'Player',
+        role: userData.role || 'Player',
         isActive: true
     });
 
@@ -74,11 +75,12 @@ const UserCreate: React.FC<UserCreateProps> = ({ userData, isOpen, onClose, acti
       <div className="flex justify-center mb-4">
         <div className="w-20 h-20 z-10 overflow-hidden relative group">
           {previewImage ? (
-            <img src={previewImage} alt="Preview" className="w-full h-full object-cover rounded-full" />
+            <Image src={previewImage} alt="Preview" width={20} height={20}className="w-full h-full object-cover rounded-full" />
           ) : (
-            <img
-              src={userData.avatar ? userData.avatar : '../../img/image_not_found.jpg'}
+            <Image
+              src={userData.avatar ? userData.avatar : '/img/image_not_found.jpg'}
               alt="Default"
+              width={20} height={20}
               className="w-full h-full object-cover rounded-full"
             />
           )}
@@ -112,7 +114,7 @@ const UserCreate: React.FC<UserCreateProps> = ({ userData, isOpen, onClose, acti
             </td>
           </tr>
           <tr>
-            <th className="p-2 border-b font-semibold">Username:</th>
+            <th className="p-2 border-b font-semibold">username:</th>
             <td className="p-2 border-b">
               <input
                 type="text"

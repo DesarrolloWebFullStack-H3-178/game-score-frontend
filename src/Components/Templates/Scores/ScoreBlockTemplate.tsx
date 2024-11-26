@@ -20,7 +20,7 @@ interface ScoreBlockProps {
 
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-const ScoreBlock: React.FC<ScoreBlockProps> = ({ scoreData, onClose, action }) => {
+const ScoreBlock: React.FC<ScoreBlockProps> = ({ scoreData, onClose }) => {
     const [copied, setCopied] = useState(false);
     const handleCopyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text)

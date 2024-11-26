@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
 
 const UserDropdown: React.FC = () => {
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
@@ -26,8 +27,11 @@ const UserDropdown: React.FC = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     router.push('/');
+  };
 
-  }
+  /* const handlePreventDefault = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+  }; */
 
   return (
     <>
@@ -36,15 +40,21 @@ const UserDropdown: React.FC = () => {
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
+          if (dropdownPopoverShow) {
+            closeDropdownPopover();
+          } else {
+            openDropdownPopover();
+          }
         }}
       >
         <div className="items-center flex">
           <span className="w-12 h-12 text-sm text-white bg-gray-200 inline-flex items-center justify-center rounded-full">
-            <img
+            <Image
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/react.jpg"
+              width={48}
+              height={48}
             />
           </span>
         </div>

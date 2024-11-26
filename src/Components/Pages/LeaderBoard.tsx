@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type { NextPage } from 'next';
-
 interface Score {
     scoreId: string;
     playerId: string;

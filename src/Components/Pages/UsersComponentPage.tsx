@@ -40,7 +40,7 @@ const UsersPage: NextPage = () => {
                 <thead>
                     <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                         <th className="p-4 border-b">User Id</th>
-                        <th className="p-4 border-b">Username</th>
+                        <th className="p-4 border-b">username</th>
                         <th className="p-4 border-b">Email</th>
                         <th className="p-4 border-b">Role</th>
                     </tr>
