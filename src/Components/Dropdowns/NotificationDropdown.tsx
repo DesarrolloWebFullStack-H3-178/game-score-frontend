@@ -1,0 +1,93 @@
+'use client';
+import React, { useRef, useState } from "react";
+import { createPopper } from "@popperjs/core";
+import Link from "next/link";
+
+const NotificationDropdown: React.FC = () => {
+  // dropdown props
+  const [dropdownPopoverShow, setDropdownPopoverShow] = useState<boolean>(false);
+  const btnDropdownRef = useRef<HTMLAnchorElement>(null);
+  const popoverDropdownRef = useRef<HTMLDivElement>(null);
+
+  const openDropdownPopover = () => {
+    if (btnDropdownRef.current && popoverDropdownRef.current) {
+      try {
+        createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+          placement: "bottom-start",
+        });
+        setDropdownPopoverShow(true);
+      } catch (error) {
+        console.error("Error creating Popper:", error);
+      }
+    }
+  };
+
+  const closeDropdownPopover = () => {
+    setDropdownPopoverShow(false);
+  };
+
+  const toggleDropdown = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (dropdownPopoverShow) {
+      closeDropdownPopover();
+    } else {
+      openDropdownPopover();
+    }
+  };
+
+  /* const preventDefault = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+  }; */
+
+  return (
+    <>
+      <Link
+        className="text-gray-500 block py-1 px-3"
+        href="#"
+        ref={btnDropdownRef}
+        onClick={toggleDropdown}
+      >
+        <i className="fas fa-bell"></i>
+      </Link>
+      <div
+        ref={popoverDropdownRef}
+        className={
+          (dropdownPopoverShow ? "block " : "hidden ") +
+          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
+        }
+      >
+        <Link
+          href="#"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
+          onClick={(e) => e.preventDefault()}
+        >
+          Action
+        </Link>
+        <Link
+          href="#"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
+          onClick={(e) => e.preventDefault()}
+        >
+          Another action
+        </Link>
+        <Link
+          href="#"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
+          onClick={(e) => e.preventDefault()}
+        >
+          Something else here
+        </Link>
+        <div className="h-0 my-2 border border-solid border-gray-100" />
+        <Link
+          href="#"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
+          onClick={(e) => e.preventDefault()}
+        >
+          Separated link
+        </Link>
+      </div>
+    </>
+  );
+};
+
+export default NotificationDropdown;
